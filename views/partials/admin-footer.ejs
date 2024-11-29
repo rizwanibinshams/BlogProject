@@ -1,0 +1,38 @@
+    <footer class="bg-white shadow mt-8">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-gray-500 text-sm">
+                        &copy; <%= new Date().getFullYear() %> Blog Admin. All rights reserved.
+                    </p>
+                </div>
+                <div>
+                    <a href="/admin/help" class="text-gray-500 hover:text-gray-700 text-sm">Help</a>
+                    <span class="text-gray-300 mx-2">|</span>
+                    <a href="/admin/settings" class="text-gray-500 hover:text-gray-700 text-sm">Settings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Connect to Socket.io
+        const socket = io();
+
+        // Listen for real-time notifications
+        socket.on('notification', (data) => {
+            // Handle notifications (e.g., new comments, user registrations)
+            console.log('New notification:', data);
+            // You can implement a notification UI here
+        });
+
+        // Listen for stats updates
+        socket.on('statsUpdate', (data) => {
+            // Update dashboard stats in real-time
+            if (data.totalUsers) document.getElementById('totalUsers').textContent = data.totalUsers;
+            if (data.totalPosts) document.getElementById('totalPosts').textContent = data.totalPosts;
+            if (data.totalComments) document.getElementById('totalComments').textContent = data.totalComments;
+        });
+    </script>
+</body>
+</html>

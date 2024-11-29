@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Blog Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <!-- Admin Navigation -->
+    <nav class="bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <a href="/admin/dashboard" class="text-white font-bold text-xl">Blog Admin</a>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="/admin/dashboard" class="<%= title === 'Dashboard' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' %> px-3 py-2 rounded-md text-sm font-medium">
+                                Dashboard
+                            </a>
+                            <a href="/admin/posts" class="<%= title === 'Manage Posts' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' %> px-3 py-2 rounded-md text-sm font-medium">
+                                Posts
+                            </a>
+                            <a href="/admin/users" class="<%= title === 'Manage Users' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' %> px-3 py-2 rounded-md text-sm font-medium">
+                                Users
+                            </a>
+                            <a href="/admin/comments" class="<%= title === 'Manage Comments' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' %> px-3 py-2 rounded-md text-sm font-medium">
+                                Comments
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-center md:ml-6">
+                        <div class="ml-3 relative">
+                            <div class="flex items-center">
+                                <span class="text-gray-300 mr-4"><%= user.username %></span>
+                                <a href="/auth/logout" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile menu -->
+    <div class="md:hidden">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="/admin/dashboard" class="<%= title === 'Dashboard' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' %> block px-3 py-2 rounded-md text-base font-medium">
+                Dashboard
+            </a>
+            <a href="/admin/posts" class="<%= title === 'Manage Posts' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' %> block px-3 py-2 rounded-md text-base font-medium">
+                Posts
+            </a>
+            <a href="/admin/users" class="<%= title === 'Manage Users' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' %> block px-3 py-2 rounded-md text-base font-medium">
+                Users
+            </a>
+            <a href="/admin/comments" class="<%= title === 'Manage Comments' ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' %> block px-3 py-2 rounded-md text-base font-medium">
+                Comments
+            </a>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    <% if(typeof errors !== 'undefined' && errors.length > 0) { %>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <% errors.forEach(function(error) { %>
+                    <p><%= error.msg %></p>
+                <% }); %>
+            </div>
+        </div>
+    <% } %>
+
+    <% if(success_msg != '') { %>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <%= success_msg %>
+            </div>
+        </div>
+    <% } %>

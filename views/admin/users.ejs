@@ -1,0 +1,95 @@
+<%- include('../partials/admin-header') %>
+
+<div class="min-h-screen bg-gray-100">
+    <header class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-bold text-gray-900">
+                    Manage Users
+                </h1>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <!-- User List -->
+            <div class="flex flex-col">
+                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            User
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Email
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Joined
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Posts
+                                        </th>
+                                        <th scope="col" class="relative px-6 py-3">
+                                            <span class="sr-only">Actions</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <% users.forEach(function(user) { %>
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    <div class="flex-shrink-0 h-10 w-10">
+                                                        <% if (user.avatar) { %>
+                                                            <img class="h-10 w-10 rounded-full" src="<%= user.avatar %>" alt="<%= user.username %>">
+                                                        <% } else { %>
+                                                            <div class="h-10 w-10 rounded-full bg-gray-300 flex items-center justify-center">
+                                                                <span class="text-xl text-gray-600"><%= user.username.charAt(0).toUpperCase() %></span>
+                                                            </div>
+                                                        <% } %>
+                                                    </div>
+                                                    <div class="ml-4">
+                                                        <div class="text-sm font-medium text-gray-900">
+                                                            <%= user.username %>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm text-gray-900"><%= user.email %></div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm text-gray-900">
+                                                    <%= new Date(user.createdAt).toLocaleDateString() %>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                <%= user.posts ? user.posts.length : 0 %>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                <div class="flex space-x-3 justify-end">
+                                                    <a href="/admin/users/<%= user._id %>" class="text-indigo-600 hover:text-indigo-900">View</a>
+                                                    <form action="/admin/users/<%= user._id %>?_method=DELETE" method="POST" class="inline">
+                                                        <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone.')">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<%- include('../partials/admin-footer') %>
